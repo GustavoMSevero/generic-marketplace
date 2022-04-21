@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import InputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 
 // import { Container } from './styles';
@@ -9,16 +10,15 @@ const Register: React.FC = () => {
   const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm();
   const [typePerson, setTypePerson] = useState<"cpf" | "cnpj">("cpf");
 
-  // console.log(watch('cpf-cnpj'))
 
   useEffect(() => {
     const cpf = getValues("cpf-cnpj");
-    if (cpf.length <= 11) {
-      if (typePerson === 'cnpj') return setTypePerson('cpf')
+    if (cpf.length <= 14) {
+      setTypePerson('cpf');
     } else {
-      if (typePerson === 'cpf') return setTypePerson('cnpj')
+      setTypePerson('cnpj')
     }
-    console.log(typePerson)
+    // console.log(typePerson)
 
   },[watch("cpf-cnpj")]);
 
@@ -32,12 +32,16 @@ const Register: React.FC = () => {
         <form onSubmit={handleSubmit((data) => {
           console.log(data)
         })}>
-          <input 
+
+          <InputMask maskChar={null} mask={typePerson === "cpf" ? "999.999.999-999" : "99.999.999/9999-99"}
             className="typePerson"
             type="text"
-            placeholder="CPF/CNPJ"
             {...register("cpf-cnpj", { required: true } )}
           />
+
+          <div className="person">
+            {typePerson}
+          </div>
 
           <input 
             className="inputName"

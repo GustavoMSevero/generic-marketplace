@@ -19,6 +19,10 @@
     margin-top: 20px;
 }
 
+.person {
+    margin-left: 20%;
+}
+
 .typePerson,
 .inputName,
 .inputLastName,
